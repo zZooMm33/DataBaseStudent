@@ -1,2 +1,9 @@
 Таблица STUDENT
 CREATE TABLE TEST(ID UUID PRIMARY KEY, FIRST_NAME VARCHAR(255), SECOND_NAME VARCHAR(255), AGE INT);
+
+Для h2
+
+org.h2.Driver
+jdbc:h2:~/test
+zZooMm
+Hp0

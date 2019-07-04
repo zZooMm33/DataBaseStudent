@@ -1,7 +1,8 @@
 import java.sql.*;
 
 public class Main {
-    private static String dataBaseUrl = "jdbc:sqlite:/Users/zzoomm/Desktop/Git/Java/DataBaseStudentGradle/Student.db";
+    // jdbc:h2:/путь к бд/название бд
+    private static String dataBaseUrl = "jdbc:h2:/Users/zzoomm/Desktop/Git/Java/DataBaseStudentGradle/StudentDataBaseH2/Student";
 
     // если потребуется добавить к getConnection
     private static String dataBaseUser = "zZooMm";
@@ -11,23 +12,30 @@ public class Main {
 
         Connection connection = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(dataBaseUrl);
+
+            //Class.forName("org.sqlite.JDBC");
+            Class.forName("org.h2.Driver");
+
+            connection = DriverManager.getConnection(dataBaseUrl, dataBaseUser, dataBasePassword);
             if (connection != null){
 
                 Statement statement = connection.createStatement();
                 DataBaseStudent dataBaseStudent = new DataBaseStudent("STUDENTS");
 
-                System.out.println("Вывод БД");
+                // Очищаем БД
+                dataBaseStudent.clearTableStudent(statement);
+
+                System.out.println("Вывод БД (пустая)");
                 System.out.println(dataBaseStudent.printTable(statement));
 
+                // Добавляем студентов в БД
                 dataBaseStudent.addStudent(statement, new Student("Yura", "Agapov", 21));
                 dataBaseStudent.addStudent(statement, new Student("Ya", "Ya", 19));
 
                 Student student = new Student("Test", "Test", 21);
                 dataBaseStudent.addStudent(statement, student);
 
-                System.out.println("Вывод БД (пустая)");
+                System.out.println("Вывод БД (с 3 студентами)");
                 System.out.println(dataBaseStudent.printTable(statement));
 
                 student.setAge(100).setFirstName("NewName");

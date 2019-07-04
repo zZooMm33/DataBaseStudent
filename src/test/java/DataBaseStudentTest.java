@@ -6,54 +6,59 @@ import static org.junit.Assert.*;
 
 public class DataBaseStudentTest {
 
-    private static String dataBaseName = "STUDENT";
+    private static String dataBaseName = "STUDENTS";
 
-    private static String dataBaseUrl = "jdbc:h2:tcp://localhost/~/test";
+    private static String dataBaseUrl = "jdbc:sqlite:/Users/zzoomm/Desktop/Git/Java/DataBaseStudentGradle/Student.db";
+
+    // если потребуется добавить к getConnection
     private static String dataBaseUser = "zZooMm";
     private static String dataBasePassword = "Hp0qpVOuumLj";
 
     @Test
-    public void update() throws SQLException {
-        Connection connection = DriverManager.getConnection(dataBaseUrl, dataBaseUser, dataBasePassword);
+    public void update() throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = DriverManager.getConnection(dataBaseUrl);
         DataBaseStudent dataBaseStudent = new DataBaseStudent(dataBaseName);
 
         if (connection != null){
 
             Statement statement = connection.createStatement();
 
-            dataBaseStudent.clearTableStudent(connection);
+            dataBaseStudent.clearTableStudent(statement);
 
             Student student = new Student("Test", "Test", 10);
-            dataBaseStudent.addStudent(connection, student);
+            dataBaseStudent.addStudent(statement, student);
 
-            student.setFirstName("TEST");
-            dataBaseStudent.updateStudent(connection, student);
+            student.setAge(999999999);
+            dataBaseStudent.updateStudent(statement, student);
 
-            assertEquals(student.toString(), dataBaseStudent.getStudent(connection, student.getId()));
+            assertEquals(student.toString(), dataBaseStudent.getStudent(statement, student.getId()).toString());
 
-            dataBaseStudent.deleteStudent(connection, student.getId());
+            dataBaseStudent.deleteStudent(statement, student.getId());
 
             connection.close();
         }
     }
 
     @Test
-    public void getStudent() throws SQLException {
-        Connection connection = DriverManager.getConnection(dataBaseUrl, dataBaseUser, dataBasePassword);
+    public void getStudent() throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = DriverManager.getConnection(dataBaseUrl);
+
         DataBaseStudent dataBaseStudent = new DataBaseStudent(dataBaseName);
 
         if (connection != null){
 
             Statement statement = connection.createStatement();
 
-            dataBaseStudent.clearTableStudent(connection);
+            dataBaseStudent.clearTableStudent(statement);
 
             Student student = new Student("Test", "Test", 10);
-            dataBaseStudent.addStudent(connection, student);
+            dataBaseStudent.addStudent(statement, student);
 
-            assertEquals(student.toString(), dataBaseStudent.getStudent(connection, student.getId()));
+            assertEquals(student.toString(), dataBaseStudent.getStudent(statement, student.getId()).toString());
 
-            dataBaseStudent.deleteStudent(connection, student.getId());
+            dataBaseStudent.deleteStudent(statement, student.getId());
 
             connection.close();
         }
@@ -61,18 +66,19 @@ public class DataBaseStudentTest {
     }
 
     @Test
-    public void clearTable() throws SQLException {
+    public void clearTable() throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = DriverManager.getConnection(dataBaseUrl);
 
-        Connection connection = DriverManager.getConnection(dataBaseUrl, dataBaseUser, dataBasePassword);
         DataBaseStudent dataBaseStudent = new DataBaseStudent(dataBaseName);
 
         if (connection != null){
 
             Statement statement = connection.createStatement();
 
-            dataBaseStudent.clearTableStudent(connection);
+            dataBaseStudent.clearTableStudent(statement);
 
-            assertEquals("", dataBaseStudent.printTable(connection));
+            assertEquals("", dataBaseStudent.printTable(statement));
 
             connection.close();
         }

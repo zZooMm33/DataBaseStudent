@@ -18,7 +18,7 @@ public class Main {
                 Statement statement = connection.createStatement();
                 DataBaseStudent dataBaseStudent = new DataBaseStudent("STUDENTS");
 
-                System.out.println("Вывод БД");
+                System.out.println("Вывод БД (пустая)");
                 System.out.println(dataBaseStudent.printTable(statement));
 
                 dataBaseStudent.addStudent(statement, new Student("Yura", "Agapov", 21));
@@ -27,13 +27,13 @@ public class Main {
                 Student student = new Student("Test", "Test", 21);
                 dataBaseStudent.addStudent(statement, student);
 
-                System.out.println("Вывод БД (пустая)");
+                System.out.println("Вывод БД (добавили 3 студента)");
                 System.out.println(dataBaseStudent.printTable(statement));
 
                 student.setAge(100).setFirstName("NewName");
                 dataBaseStudent.updateStudent(statement, student);
 
-                System.out.println("Вывод БД (добавили 3 ст)");
+                System.out.println("Вывод БД (измененили 1 студента)");
                 System.out.println(dataBaseStudent.printTable(statement));
 
                 System.out.println("Вывод студента по id");

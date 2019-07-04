@@ -35,8 +35,9 @@ public class Student {
         return age;
     }
 
-    public void setAge(int age) {
+    public Student setAge(int age) {
         this.age = age;
+        return this;
     }
 
     public Student() {

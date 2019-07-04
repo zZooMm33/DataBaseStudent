@@ -8,13 +8,9 @@ public class Main {
     private static String dataBasePassword = "Hp0qpVOuumLj";
 
     public static void main(String[] args) {
-        //Connection connection
 
         Connection connection = null;
-
         try {
-
-
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(dataBaseUrl);
             if (connection != null){
@@ -22,15 +18,13 @@ public class Main {
                 Statement statement = connection.createStatement();
                 DataBaseStudent dataBaseStudent = new DataBaseStudent("STUDENTS");
 
+
                 //dataBaseStudent.addStudent(statement, new Student("New", "Newnew", 123));
-                System.out.println(dataBaseStudent.printTable(statement));
+                //System.out.println(dataBaseStudent.printTable(statement));
 
                 connection.close();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("asdasd");
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
